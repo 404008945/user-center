@@ -19,8 +19,8 @@ import java.util.Arrays;
 @Aspect
 //申明是个spring管理的bean
 @Component
-@Order(1)
 @Slf4j
+@Order(1)
 public class LogAspect {
 
     private Gson gson = new Gson();
@@ -44,10 +44,10 @@ public class LogAspect {
             return result;
         } catch (RuntimeException e){
             e.printStackTrace();
-            return "系统异常";
+            return "server层异常";
         } catch (Throwable throwable) {
             throwable.printStackTrace();
-            return "系统异常";
+            return "server层异常";
         }
     }
 

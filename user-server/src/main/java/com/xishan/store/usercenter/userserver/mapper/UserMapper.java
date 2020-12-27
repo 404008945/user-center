@@ -2,6 +2,7 @@ package com.xishan.store.usercenter.userserver.mapper;
 
 
 import com.xishan.store.usercenter.userapi.model.User;
+import com.xishan.store.usercenter.userapi.model.request.UserLoginRequest;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -17,4 +18,6 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    User selectByAccount(UserLoginRequest userLoginRequest);
 }
