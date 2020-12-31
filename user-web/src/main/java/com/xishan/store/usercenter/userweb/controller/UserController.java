@@ -2,6 +2,7 @@ package com.xishan.store.usercenter.userweb.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.xishan.store.base.annoation.Authority;
+import com.xishan.store.base.annoation.ResponseJsonFormat;
 import com.xishan.store.base.exception.RestException;
 import com.xishan.store.usercenter.userapi.dto.UserDTO;
 import com.xishan.store.usercenter.userapi.facade.UserReadFacade;
@@ -44,6 +45,7 @@ public class UserController {
 
     @GetMapping("/")
     @ResponseBody
+    @ResponseJsonFormat
     public String index(){
         RpcContext.getContext().setAttachment("user", JSON.toJSONString(new UserDTO()));
         return userReadFacade.findById(1l).toString();
@@ -52,6 +54,7 @@ public class UserController {
     @PostMapping("/login")
     @ApiOperation(value = "用户登录接口", httpMethod ="POST" , response = LoginResponseVO.class, notes = "....")
     @ResponseBody
+    @ResponseJsonFormat
     public LoginResponseVO login(UserLoginRequest  loginRequest, HttpServletRequest httpServletRequest){//用户信息要用aop拦截，登录肯定不用拦截了。
         HttpSession session = httpServletRequest.getSession();
 
@@ -75,6 +78,7 @@ public class UserController {
     @PostMapping("/register")
     @ApiOperation(value = "用户注册接口", httpMethod ="POST" , response = UserRegisterResponse.class, notes = "....")
     @ResponseBody
+    @ResponseJsonFormat
     public UserRegisterResponse register(UserRegisterRequest userRegisterRequest){//用户信息要用aop拦截，登录肯定不用拦截了。
         if(userRegisterRequest.getPassward() != null){
             userRegisterRequest.setPassward(passwordEncoder.encode(userRegisterRequest.getPassward()));
@@ -86,6 +90,7 @@ public class UserController {
     @ApiOperation(value = "更新用户信息接口", httpMethod ="POST" , response = UserUpdateResponse.class, notes = "....")
     @ResponseBody
     @Authority
+    @ResponseJsonFormat
     public UserUpdateResponse update(UserUpdateRequest userUpdateRequest,HttpServletRequest httpServletRequest) {
         UserUpdateResponse userUpdateResponse =  userWriteFacade.update(userUpdateRequest);
         if(userUpdateResponse == null){
