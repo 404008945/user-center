@@ -2,7 +2,7 @@ package com.xishan.store.usercenter.userweb.util;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import exception.ServiceException;
+import com.xishan.store.base.exception.ServiceException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -99,7 +99,7 @@ public final class RedisUtil {
      * @return 值
      */
     public <T> T get(String key,Class<T> to) {
-       return  (T)JSON.parseObject(redisTemplate.opsForValue().get(key).toString(),to,null);
+       return  (T) JSON.parseObject(redisTemplate.opsForValue().get(key).toString(),to,null);
        // return key == null ? null : redisTemplate.opsForValue().get(key);
     }
 

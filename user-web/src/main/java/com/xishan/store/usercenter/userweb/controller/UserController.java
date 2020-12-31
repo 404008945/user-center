@@ -1,6 +1,8 @@
 package com.xishan.store.usercenter.userweb.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.xishan.store.base.annoation.Authority;
+import com.xishan.store.base.exception.RestException;
 import com.xishan.store.usercenter.userapi.dto.UserDTO;
 import com.xishan.store.usercenter.userapi.facade.UserReadFacade;
 import com.xishan.store.usercenter.userapi.facade.UserWriteFacade;
@@ -11,7 +13,6 @@ import com.xishan.store.usercenter.userapi.model.response.UserLoginResponse;
 import com.xishan.store.usercenter.userapi.model.response.UserRegisterResponse;
 import com.xishan.store.usercenter.userapi.model.response.UserUpdateResponse;
 import com.xishan.store.usercenter.userweb.vo.LoginResponseVO;
-import exception.RestException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
@@ -63,7 +64,9 @@ public class UserController {
         if(!passwordEncoder.matches(loginRequest.getPassward(),userLoginResponse.getPassward())) {
          throw new RestException("账号活密码不正确");
         }
-        session.setAttribute("user",userLoginResponse);
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(userLoginResponse,userDTO);
+        session.setAttribute("user",userDTO);
         LoginResponseVO loginResponseVo = new LoginResponseVO();
         BeanUtils.copyProperties(userLoginResponse,loginResponseVo);
         return loginResponseVo;
@@ -82,6 +85,7 @@ public class UserController {
     @PostMapping("/update")
     @ApiOperation(value = "更新用户信息接口", httpMethod ="POST" , response = UserUpdateResponse.class, notes = "....")
     @ResponseBody
+    @Authority
     public UserUpdateResponse update(UserUpdateRequest userUpdateRequest,HttpServletRequest httpServletRequest) {
         UserUpdateResponse userUpdateResponse =  userWriteFacade.update(userUpdateRequest);
         if(userUpdateResponse == null){
