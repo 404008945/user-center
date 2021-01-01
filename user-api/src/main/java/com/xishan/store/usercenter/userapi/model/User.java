@@ -1,6 +1,11 @@
 package com.xishan.store.usercenter.userapi.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
+
 public class User {
+
     private Long id;
 
     private String userName;
@@ -8,16 +13,16 @@ public class User {
     private String nickName;
 
     private Boolean gender;
-
-    private Long birthday;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthday;
 
     private String mobile;
 
     private String email;
-
-    private Integer createTime;
-
-    private Integer updateTime;
+    @DateTimeFormat(pattern =  "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
+    @DateTimeFormat(pattern =  "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
 
     private String passward;
 
@@ -53,11 +58,11 @@ public class User {
         this.gender = gender;
     }
 
-    public Long getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Long birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
@@ -77,19 +82,19 @@ public class User {
         this.email = email;
     }
 
-    public Integer getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public Integer getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Integer updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 

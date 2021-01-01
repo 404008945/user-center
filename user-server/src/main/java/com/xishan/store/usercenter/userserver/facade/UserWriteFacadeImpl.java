@@ -26,7 +26,7 @@ public class UserWriteFacadeImpl implements UserWriteFacade {
         if(userService.updateUserById(record)<=0){
             throw new ServiceException("更新失败");
         }
-        User user = userService.findById(userUpdateRequest.getId());
+        User user = userService.findById(UserContext.getCurrentUser().getId());
         UserUpdateResponse userUpdateResponse = new UserUpdateResponse();
         BeanUtils.copyProperties(user,userUpdateResponse);
         return userUpdateResponse;

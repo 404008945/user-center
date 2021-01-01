@@ -1,10 +1,14 @@
 package com.xishan.store.usercenter.userapi.model.request;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
+@ApiModel
 public class UserRegisterRequest implements Serializable {
 
     private Long id;
@@ -15,7 +19,8 @@ public class UserRegisterRequest implements Serializable {
 
     private Boolean gender;
 
-    private Long birthday;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthday;
 
     private String mobile;
 

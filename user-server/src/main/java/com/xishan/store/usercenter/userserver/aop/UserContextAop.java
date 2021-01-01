@@ -22,7 +22,7 @@ public class UserContextAop {
     }
 
     @Around("userContextAspect()")
-    public Object serviceLogAround(ProceedingJoinPoint point){
+    public Object serviceLogAround(ProceedingJoinPoint point) throws Throwable {
         //执行前，塞进UserContext中，执行后清除UserContext
         Object userInfo = RpcContext.getContext().getAttachment("user");//web层透传过来的用户信息
         Object result = null;
@@ -32,9 +32,11 @@ public class UserContextAop {
         try {
             result = point.proceed();
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
+             throw throwable;
         }
-        UserContext.clearCurrentUser();
+        finally {
+            UserContext.clearCurrentUser();
+        }
 
         return result;
         //执行目标

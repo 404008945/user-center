@@ -1,6 +1,9 @@
 package com.xishan.store.usercenter.userweb.vo;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Data
 public class LoginResponseVO {
@@ -11,15 +14,15 @@ public class LoginResponseVO {
     private String nickName;
 
     private Boolean gender;
-
-    private Long birthday;
+    @DateTimeFormat(pattern =  "yyyy-MM-dd")
+    private Date birthday;
 
     private String mobile;
 
     private String email;
-
-    private Integer createTime;
-
-    private Integer updateTime;
+    @DateTimeFormat(pattern =  "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
+    @DateTimeFormat(pattern =  "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
 
 }

@@ -3,6 +3,7 @@ package com.xishan.store.usercenter.userapi.model.response;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 @Data
 public class UserUpdateResponse implements Serializable {
@@ -14,13 +15,13 @@ public class UserUpdateResponse implements Serializable {
 
     private Boolean gender;
 
-    private Long birthday;
+    private Date birthday;
 
     private String mobile;
 
     private String email;
 
-    private Integer createTime;
+    private Date createTime;
 
-    private Integer updateTime;
+    private Date updateTime;
 }

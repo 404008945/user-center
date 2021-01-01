@@ -32,22 +32,24 @@ public class LogAspect {
     }
 
       @Around("controllerAspect()")
-    public Object serviceLogAround(ProceedingJoinPoint point){
+    public Object serviceLogAround(ProceedingJoinPoint point) throws Throwable {
         String className = point.getTarget().getClass().getName();
         String methodName = point.getSignature().getName();
+          StopWatch stopWatch = new StopWatch();
+          stopWatch.start();
+          Object result = null;
         try {
-            StopWatch stopWatch = new StopWatch();
-            stopWatch.start();
-            Object result = point.proceed();
+            result = point.proceed();
             stopWatch.stop();
-            log.info("class:{},method:{},args:{},runTime:{},result:{}",className,methodName, handlerParameter(point),stopWatch.getTotalTimeMillis(), JSON.toJSONString(result));
             return result;
         } catch (RuntimeException e){
             e.printStackTrace();
-            return "server层异常";
+            throw e;
         } catch (Throwable throwable) {
             throwable.printStackTrace();
-            return "server层异常";
+            throw throwable;
+        } finally {
+            log.info("class:{},method:{},args:{},runTime:{},result:{}",className,methodName, handlerParameter(point),stopWatch.getTotalTimeMillis(), JSON.toJSONString(result));
         }
     }
 
