@@ -28,7 +28,7 @@ public class UserContextAop {
     }
 
     @Around("userContextAspect()")
-    public Object webContextAround(ProceedingJoinPoint point){
+    public Object webContextAround(ProceedingJoinPoint point) throws Throwable {
         //执行前，塞进UserContext中，执行后清除UserContext
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         UserDTO user = null;
@@ -41,13 +41,13 @@ public class UserContextAop {
         }
         Object result = null;
         try {
-            result = point.proceed();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+            result = point.proceed();//可能抛出异常，并且异常不能被吃了
+        }catch (Throwable e){
+            throw  e;
+        }finally {
+            UserContext.clearCurrentUser();
+            RpcContext.getContext().removeAttachment("user");
         }
-        UserContext.clearCurrentUser();
-        RpcContext.getContext().removeAttachment("user");
-
         return result;
         //执行目标
     }

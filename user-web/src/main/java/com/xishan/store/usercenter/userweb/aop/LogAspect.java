@@ -30,7 +30,7 @@ public class LogAspect {
     }
 
       @Around("controllerAspect()")
-    public Object webLogAround(ProceedingJoinPoint point){
+    public Object webLogAround(ProceedingJoinPoint point) throws Throwable {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
           UserDTO user = null;
@@ -40,19 +40,18 @@ public class LogAspect {
         }
         String className = point.getTarget().getClass().getName();
         String methodName = point.getSignature().getName();
+          StopWatch stopWatch = new StopWatch();
+          stopWatch.start();
+          Object result = null;
         try {
-            StopWatch stopWatch = new StopWatch();
-            stopWatch.start();
-            Object result = point.proceed();
+            result = point.proceed();
+            return result;
+        } catch (Throwable e){
+            e.printStackTrace();
+           throw e;//可能抛出异常，并且异常不能被吃了
+        } finally {
             stopWatch.stop();
             log.info("class:{},method:{},args:{},user:{},runTime:{},result:{}",className,methodName, handlerParameter(point),user,stopWatch.getTotalTimeMillis() ,JSON.toJSONString(result));
-            return result;
-        } catch (RuntimeException e){
-            e.printStackTrace();
-            return "server层异常";
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-            return "server层异常";
         }
     }
 

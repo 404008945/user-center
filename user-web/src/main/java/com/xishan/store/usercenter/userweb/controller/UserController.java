@@ -48,7 +48,10 @@ public class UserController {
     @ResponseJsonFormat
     public String index(){
         RpcContext.getContext().setAttachment("user", JSON.toJSONString(new UserDTO()));
-        return userReadFacade.findById(1l).toString();
+
+
+         userReadFacade.findById(1l).toString();
+        throw new RestException("更新用户信息失败");
     }
 
     @PostMapping("/login")
