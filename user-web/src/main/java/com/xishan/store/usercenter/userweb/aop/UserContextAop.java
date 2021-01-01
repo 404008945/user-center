@@ -37,7 +37,7 @@ public class UserContextAop {
         }
         if(user != null){
             UserContext.putCurrentUser(user);
-            RpcContext.getContext().setAttachment("user",user);
+            RpcContext.getContext().setAttachment("user",JSON.toJSONString(user));
         }
         Object result = null;
         try {
