@@ -18,6 +18,7 @@
         <module>user-server</module>
         <module>user-server-starter</module>
         <module>user-web</module>
+        <module>user-web-autoconfigure</module>
         <module>user-web-starter</module>
     </modules>
     <properties>
